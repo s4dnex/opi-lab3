@@ -12,16 +12,16 @@
     <ui:include src="template/header.xhtml"/>
 
     <div id="main-container">
-        <form id="clock-container">
+        <h:form id="clock-container">
             <h:outputText id="date" value="#{dateTime.now}"/>
             <p:clock id="clock" widgetVar="clockVar" displayMode="analog" mode="server" value="#{dateTime.now}"
                      widgetPostRefresh="stopClock()"/>
             <p:remoteCommand name="updateClock" update="date clock"/>
-        </form>
+        </h:form>
 
-        <form>
-            <h:commandButton value="Submit" action="toAreaPage"/>
-        </form>
+        <h:form>
+            <h:commandButton value="Main" action="toAreaPage"/>
+        </h:form>
     </div>
 
     <ui:include src="template/footer.xhtml"/>
