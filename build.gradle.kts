@@ -10,6 +10,12 @@ repositories {
 
 dependencies {
     compileOnly(libs.bundles.jakarta)
+    implementation(
+        libs.primefaces.get().group,
+        libs.primefaces.get().name,
+        libs.primefaces.get().version,
+        classifier = "jakarta"
+    )
     implementation(libs.gson)
 }
 
