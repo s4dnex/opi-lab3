@@ -11,18 +11,21 @@
 <h:body>
     <ui:include src="template/header.xhtml"/>
 
-    <div id="main-container">
-        <h:form id="clock-container">
-            <h:outputText id="date" value="#{dateTime.now}"/>
-            <p:clock id="clock" widgetVar="clockVar" displayMode="analog" mode="server" value="#{dateTime.now}"
-                     widgetPostRefresh="stopClock()"/>
-            <p:remoteCommand name="updateClock" update="date clock"/>
-        </h:form>
+    <main>
+        <div class="clock-section">
+            <h:form id="clock-form">
+                <h:outputText id="date" value="#{dateTime.now}"/>
+                <p:clock id="clock" widgetVar="clockVar" displayMode="analog" mode="server" value="#{dateTime.now}"
+                         widgetPostRefresh="stopClock()"/>
+                <p:remoteCommand name="updateClock" update="date clock"/>
+            </h:form>
+        </div>
 
-        <h:form>
-            <h:commandButton value="Main" action="toAreaPage"/>
+
+        <h:form id="redirect-form">
+            <h:commandButton value="Area" action="toAreaPage"/>
         </h:form>
-    </div>
+    </main>
 
     <ui:include src="template/footer.xhtml"/>
 
