@@ -7,8 +7,10 @@
 <h:head>
     <meta charset="UTF-8"/>
     <title>Simple Facelet Page</title>
+    <h:outputStylesheet library="style" name="area.css"/>
+    <h:outputScript library="script" name="graph.js"/>
 </h:head>
-<h:body style="background: #222222">
+<h:body>
     <ui:include src="template/header.xhtml"/>
 
     <main>
@@ -48,7 +50,5 @@
     </main>
 
     <ui:include src="template/footer.xhtml"/>
-
-    <h:outputScript library="script" name="graph.js"/>
 </h:body>
 </html>

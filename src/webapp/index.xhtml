@@ -7,6 +7,8 @@
 <h:head>
     <meta charset="UTF-8"/>
     <title>Simple Facelet Page</title>
+    <h:outputStylesheet library="style" name="index.css"/>
+    <h:outputScript library="script" name="clock.js"/>
 </h:head>
 <h:body>
     <ui:include src="template/header.xhtml"/>
@@ -25,10 +27,9 @@
         <h:form id="redirect-form">
             <h:commandButton value="Area" action="toAreaPage"/>
         </h:form>
+
     </main>
 
     <ui:include src="template/footer.xhtml"/>
-
-    <h:outputScript library="script" name="clock.js"/>
 </h:body>
 </html>

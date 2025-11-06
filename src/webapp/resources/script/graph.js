@@ -1,9 +1,8 @@
-const width = 3600;
-const height = 3600; // TODO: remove hardcode
+const width = 600;
+const height = 600; // TODO: remove hardcode
 const R = width / 4.25;
 const centerX = width / 2;
 const centerY = height / 2;
-
 
 function drawGraph() {
     const canvas = document.createElement("canvas");
@@ -47,20 +46,20 @@ function drawAxis(ctx) {
     // X-axis
     ctx.beginPath();
     ctx.moveTo(0, centerY);
-    ctx.lineTo(centerX * 2, centerY);
-    ctx.fillText("X", centerX * 2 - 8, centerY + 20);
+    ctx.lineTo(width, centerY);
+    ctx.fillText("X", width - 8, centerY + 20);
     // Y-axis
     ctx.moveTo(centerX, 0);
-    ctx.lineTo(centerX, centerY * 2);
+    ctx.lineTo(centerX, height);
     ctx.fillText("Y", centerX + 10, 10);
     ctx.strokeStyle = "white";
     ctx.stroke()
 
     // X-axis arrow
     ctx.beginPath();
-    ctx.lineTo(centerX * 2 - arrowLength, centerY + arrowLength);
-    ctx.lineTo(centerX * 2 - arrowLength, centerY - arrowLength);
-    ctx.lineTo(centerX * 2, centerY);
+    ctx.lineTo(width - arrowLength, centerY + arrowLength);
+    ctx.lineTo(width - arrowLength, centerY - arrowLength);
+    ctx.lineTo(width, centerY);
     ctx.fill();
     // Y-axis arrow
     ctx.beginPath();
@@ -68,6 +67,33 @@ function drawAxis(ctx) {
     ctx.lineTo(centerX + arrowLength, arrowLength);
     ctx.lineTo(centerX - arrowLength, arrowLength);
     ctx.fill();
+
+    for (let i = -10; i <= 10; i++) {
+        if (i === 0) continue;
+
+        const x = centerX + i * R / 5;
+
+        ctx.beginPath();
+        ctx.moveTo(x, centerY - divLineLength / 2);
+        ctx.lineTo(x, centerY + divLineLength / 2);
+        ctx.stroke();
+
+        // ctx.fillText(i.toString(), x - gap, centerY + 20);
+    }
+
+    for (let i = -10; i <= 10; i++) {
+        if (i === 0) continue;
+
+        const y = centerY - i * R / 5;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX - divLineLength / 2, y);
+        ctx.lineTo(centerX + divLineLength / 2, y);
+        ctx.stroke();
+
+        // ctx.fillText(i.toString(), centerX - 25, y + gap);
+    }
+
 }
 
 function drawAreas(ctx, scaledR) {
