@@ -21,10 +21,14 @@
 
         <h:form>
             <h:outputLabel for="x" value="X:"/>
-            <h:inputText id="x" required="true"/>
+            <h:inputText id="x" value="#{area.x}" required="true">
+                <f:validateDoubleRange minimum="-3" maximum="3"/>
+            </h:inputText>
             <br/>
             <h:outputLabel for="y" value="Y:"/>
-            <h:inputText id="y" required="true"/>
+            <h:inputText id="y" value="#{area.y}" required="true">
+                <f:validateDoubleRange minimum="-10" maximum="10"/>
+            </h:inputText>
             <br/>
             <h:outputLabel for="r" value="R:"/>
             <p:selectOneRadio id="r" name="oneRadioR" value="#{area.r}" required="true">

@@ -1,22 +1,40 @@
 package sadnex.web.bean;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
 
 @Named("area")
-@SessionScoped
+@RequestScoped
 public class AreaBean implements Serializable {
     private static final long serialVersionUID = 52L;
 
-    private Double r = 1.0;
+    private Double x = 0.0;
+    private Double y = 0.0;
+    private Integer r = 1;
 
-    public Double getR() {
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+    
+    public Integer getR() {
         return r;
     }
 
-    public void setR(Double r) {
+    public void setX(Double x) {
+        this.x = x;
+    }
+
+    public void setY(Double y) {
+        this.y = y;
+    }
+
+    public void setR(Integer r) {
         this.r = r;
     }
 }
