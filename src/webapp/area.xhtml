@@ -49,6 +49,35 @@
         <h:form>
             <h:commandButton value="Main" action="toMainPage"/>
         </h:form>
+
+        <div class="table-section">
+            <h:dataTable id="points-table" value="#{area.points}" var="p">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    #{p.x}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    #{p.y}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    #{p.r}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{p.requestTime}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{p.hit ? 'HIT' : 'MISS'}
+                </h:column>
+            </h:dataTable>
+        </div>
     </main>
 
     <ui:include src="template/footer.xhtml"/>

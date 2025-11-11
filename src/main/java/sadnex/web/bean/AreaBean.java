@@ -11,6 +11,7 @@ import sadnex.web.util.HitChecker;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Named("area")
 @RequestScoped
@@ -59,5 +60,9 @@ public class AreaBean implements Serializable {
         validator.validate(point);
         point.setHit(hitChecker.checkHit(point));
         pointStorage.addPoint(point);
+    }
+
+    public List<Point> getPoints() {
+        return pointStorage.getPoints();
     }
 }

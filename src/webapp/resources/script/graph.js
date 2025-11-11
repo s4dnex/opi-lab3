@@ -19,14 +19,46 @@ function drawGraph() {
     ctx.clearRect(0, 0, width, height);
     drawAxis(ctx);
     drawAreas(ctx, scale);
+    drawPointsFromTable(ctx, r);
 
     const graphicImage = document.getElementById("graph-image");
     graphicImage.src = canvas.toDataURL("image/png");
 }
 
-function drawPoint(ctx, x, y, r, isInside) {
-    const scale = R / r;
-    const radius = R / 100;
+function drawPointsFromTable(ctx, r) {
+    const table = document.querySelector('#points-table');
+    const points = [];
+
+    if (table) {
+        const rows = (table.tBodies.length ? table.tBodies[0].rows : table.rows);
+
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].cells;
+            if (!cells || cells.length === 0) continue;
+
+            const x = parseFloat(cells[0].innerText);
+            const y = parseFloat(cells[1].innerText);
+            const r = parseInt(cells[2].innerText);
+            const statusText = cells[4] ? cells[4].innerText.trim().toUpperCase() : "";
+            const hit = statusText.indexOf('HIT') !== -1;
+
+            if (!Number.isNaN(x) && !Number.isNaN(y)) {
+                points.push({x: x, y: y, r: r, hit: hit});
+            }
+        }
+    } else {
+        console.warn("Points table not found.");
+    }
+
+    for (const p of points) {
+        if (r != p.r) continue;
+        drawPoint(ctx, p.x, p.y, p.hit)
+    }
+}
+
+function drawPoint(ctx, x, y, isInside) {
+    const scale = R / 5;
+    const radius = scale / 10;
     const px = centerX + x * scale;
     const py = centerY - y * scale;
 
