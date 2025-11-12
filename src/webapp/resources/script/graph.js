@@ -150,24 +150,30 @@ function drawAreas(ctx, scaledR) {
 
 window.addEventListener("load", () => drawGraph());
 
-// canvas.addEventListener("click", (e) => {
-//     const rInput = document.getElementById("r");
-//
-//     const r = parseFloat(rInput.value);
-//     if (!r || isNaN(r) || r === 0) {
-//         errorMsg.textContent = "Please set a valid R before clicking on the graph.";
-//         errorMsg.hidden = false;
-//         return;
-//     }
-//
-//     const scale = R / r;
-//     const rect = canvas.getBoundingClientRect();
-//     const mouseX = e.clientX - rect.left;
-//     const mouseY = e.clientY - rect.top;
-//
-//     const x = (mouseX - centerX) / scale;
-//     const y = (centerY - mouseY) / scale;
-//
-//     const point = {x, y, r};
-//     sendRequest(point);
-// });
+function onGraphClick(event) {
+    const scale = R / 5;
+
+    const img = event.currentTarget;
+    const rect = img.getBoundingClientRect();
+
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    const scaleX = (img.naturalWidth || width) / rect.width;
+    const scaleY = (img.naturalHeight || height) / rect.height;
+
+    const x = (mouseX * scaleX - centerX) / scale;
+    const y = (centerY - mouseY * scaleY) / scale;
+
+    const xInput = document.getElementById("input-form:x");
+    const yInput = document.getElementById("input-form:y");
+    const isClickInput = document.getElementById("input-form:click");
+
+    xInput.value = x;
+    yInput.value = y;
+    isClickInput.value = true;
+
+    submitClickPoint();
+
+    isClickInput.value = false;
+}

@@ -17,4 +17,8 @@ public class DateTimeBean implements Serializable {
     public LocalDateTime getNow() {
         return now;
     }
+
+    public void setNow(LocalDateTime now) {
+        this.now = now;
+    }
 }
