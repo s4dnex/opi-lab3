@@ -1,11 +1,9 @@
 package sadnex.web.util;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Default;
 import jakarta.inject.Named;
 import sadnex.web.entity.Point;
 
-@Default
 @Named("swordHitChecker")
 @ApplicationScoped
 public class SwordHitChecker implements HitChecker {
