@@ -23,4 +23,14 @@
         </navigation-case>
     </navigation-rule>
 
+    <validator>
+        <validator-id>xValidator</validator-id>
+        <validator-class>sadnex.web.validation.XValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>yValidator</validator-id>
+        <validator-class>sadnex.web.validation.YValidator</validator-class>
+    </validator>
+
 </faces-config>

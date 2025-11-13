@@ -3,7 +3,6 @@ package sadnex.web.bean;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import sadnex.web.util.Validator;
 import sadnex.web.entity.Point;
 import sadnex.web.storage.PointStorage;
 import sadnex.web.util.HitChecker;
@@ -20,17 +19,12 @@ public class AreaBean implements Serializable {
 
     @Inject
     private PointStorage pointStorage;
-
     @Inject
     private HitChecker hitChecker;
-
-    @Inject
-    private @Named("pointValidator") Validator<Point> validator;
 
     private Double x = 0.0;
     private Double y = 0.0;
     private Integer r = 1;
-    private Boolean isClick = false;
 
     public Double getX() {
         return x;
@@ -42,10 +36,6 @@ public class AreaBean implements Serializable {
 
     public Integer getR() {
         return r;
-    }
-
-    public Boolean getIsClick() {
-        return isClick;
     }
 
     public void setX(Double x) {
@@ -60,15 +50,8 @@ public class AreaBean implements Serializable {
         this.r = r;
     }
 
-    public void setIsClick(Boolean isClick) {
-        this.isClick = isClick;
-    }
-
     public void createPoint() {
         Point point = new Point(x, y, r, Timestamp.valueOf(LocalDateTime.now()));
-        if (!isClick) {
-            validator.validate(point);
-        }
         point.setHit(hitChecker.checkHit(point));
         pointStorage.addPoint(point);
     }

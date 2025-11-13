@@ -22,15 +22,15 @@
         <h:form id="input-form">
             <h:outputLabel for="x" value="X:"/>
             <h:inputText id="x" value="#{area.x}" required="true">
-                <f:validateDoubleRange minimum="-3" maximum="3"/>
+                <f:validator validatorId="xValidator"/>
             </h:inputText>
-            <h:message for="x"/>
+            <h:message id="x-message" for="x"/>
             <br/>
             <h:outputLabel for="y" value="Y:"/>
             <h:inputText id="y" value="#{area.y}" required="true">
-                <f:validateDoubleRange minimum="-10" maximum="10"/>
+                <f:validator validatorId="yValidator"/>
             </h:inputText>
-            <h:message for="y"/>
+            <h:message id="y-message" for="y"/>
             <br/>
             <h:outputLabel for="r" value="R:"/>
             <p:selectOneRadio id="r" value="#{area.r}" required="true">
@@ -42,11 +42,12 @@
                 <p:ajax event="change" oncomplete="drawGraph()"/>
             </p:selectOneRadio>
             <br/>
-            <h:inputHidden id="click" value="#{area.isClick}"/>
+            <p:selectBooleanCheckbox id="click" widgetVar="clickCheckboxVar" value="false"
+                                     style="display: none"/>
             <p:commandButton value="Submit" action="#{area.createPoint}"
-                             update="points-table" oncomplete="drawGraph();"/>
+                             update="points-table @form" oncomplete="drawGraph(); uncheckClick();"/>
             <p:remoteCommand name="submitClickPoint" action="#{area.createPoint}"
-                             update="points-table" oncomplete="drawGraph();"/>
+                             update="points-table @form" oncomplete="drawGraph(); uncheckClick();"/>
         </h:form>
 
         <h:form>

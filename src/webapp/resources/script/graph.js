@@ -3,6 +3,7 @@ const height = 600; // TODO: remove hardcode
 const R = width / 4.25;
 const centerX = width / 2;
 const centerY = height / 2;
+const scale = R / 5;
 
 function drawGraph() {
     const canvas = document.createElement("canvas");
@@ -14,11 +15,11 @@ function drawGraph() {
     if (r == null) {
         r = 0
     }
-    const scale = R / 5 * r;
+    const graphScale = R / 5 * r;
 
     ctx.clearRect(0, 0, width, height);
     drawAxis(ctx);
-    drawAreas(ctx, scale);
+    drawAreas(ctx, graphScale);
     drawPointsFromTable(ctx, r);
 
     const graphicImage = document.getElementById("graph-image");
@@ -57,7 +58,6 @@ function drawPointsFromTable(ctx, r) {
 }
 
 function drawPoint(ctx, x, y, isInside) {
-    const scale = R / 5;
     const radius = scale / 10;
     const px = centerX + x * scale;
     const py = centerY - y * scale;
@@ -151,8 +151,6 @@ function drawAreas(ctx, scaledR) {
 window.addEventListener("load", () => drawGraph());
 
 function onGraphClick(event) {
-    const scale = R / 5;
-
     const img = event.currentTarget;
     const rect = img.getBoundingClientRect();
 
@@ -167,13 +165,17 @@ function onGraphClick(event) {
 
     const xInput = document.getElementById("input-form:x");
     const yInput = document.getElementById("input-form:y");
-    const isClickInput = document.getElementById("input-form:click");
 
     xInput.value = x;
     yInput.value = y;
-    isClickInput.value = true;
+
+    const clickCheckbox = PF("clickCheckboxVar");
+    clickCheckbox.check();
 
     submitClickPoint();
+}
 
-    isClickInput.value = false;
+function uncheckClick() {
+    const clickCheckbox = PF("clickCheckboxVar");
+    clickCheckbox.uncheck();
 }
