@@ -30,8 +30,14 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
+tasks.jar {
+    enabled = false
+}
+
 tasks.war {
     from("/src/webapp") {
         into("")
     }
+
+    archiveFileName = "ROOT.war"
 }
