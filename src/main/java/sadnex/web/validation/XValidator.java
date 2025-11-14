@@ -12,7 +12,6 @@ public class XValidator implements Validator<Double> {
     public void validate(FacesContext context, UIComponent component, Double value) throws ValidatorException {
         SelectBooleanCheckbox clickCheckbox = (SelectBooleanCheckbox) context.getViewRoot().findComponent("input-form:click");
 
-        System.out.println("clickCheckbox: " + clickCheckbox.getSubmittedValue());
         if ((Boolean) clickCheckbox.getSubmittedValue()) {
             return;
         }
