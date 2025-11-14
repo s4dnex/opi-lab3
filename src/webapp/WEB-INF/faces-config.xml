@@ -6,19 +6,19 @@
               version="4.0">
 
     <navigation-rule>
-        <from-view-id>/home.xhtml</from-view-id>
+        <from-view-id>/meditation.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>toAreaPage</from-outcome>
-            <to-view-id>/area.xhtml</to-view-id>
+            <from-outcome>toRangePage</from-outcome>
+            <to-view-id>/range.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
-        <from-view-id>/area.xhtml</from-view-id>
+        <from-view-id>/range.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>toHomePage</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
+            <from-outcome>toMeditationPage</from-outcome>
+            <to-view-id>/meditation.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>

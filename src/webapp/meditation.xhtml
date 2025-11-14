@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="primefaces">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Meditation</title>
+    <h:outputStylesheet library="style" name="common.css"/>
+    <h:outputStylesheet library="style" name="meditation.css"/>
+    <h:outputScript library="script" name="clock.js"/>
+</h:head>
+<h:body>
+    <ui:include src="template/header.xhtml"/>
+
+    <main>
+
+
+        <div class="clock-container">
+            <h:form id="clock-form" styleClass="clock-form">
+                <div class="clock-background">
+                    <p:clock id="clock" widgetVar="clockVar" displayMode="analog" mode="server"
+                             value="#{dateTime.now}"
+                             widgetPostRefresh="stopClock()"/>
+                </div>
+                <h:outputText id="date" value="#{dateTime.now}"/>
+                <p:remoteCommand name="updateClock" update="date clock"/>
+            </h:form>
+        </div>
+
+
+        <h:form id="redirect-form" styleClass="redirect-form">
+            <h:commandButton value="Go to shooting range" action="toRangePage" styleClass="redirect-button"/>
+        </h:form>
+    </main>
+
+    <ui:include src="template/footer.xhtml"/>
+</h:body>
+</html>
