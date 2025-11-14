@@ -6,6 +6,8 @@ import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 @Named("dateTime")
 @RequestScoped
@@ -14,11 +16,7 @@ public class DateTimeBean implements Serializable {
 
     private LocalDateTime now = LocalDateTime.now();
 
-    public LocalDateTime getNow() {
-        return now;
-    }
-
-    public void setNow(LocalDateTime now) {
-        this.now = now;
+    public String getNow() {
+        return now.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
     }
 }

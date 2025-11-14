@@ -12,19 +12,25 @@
     <h:outputScript library="script" name="clock.js"/>
 </h:head>
 <h:body>
-    <ui:include src="template/header.xhtml"/>
+    <header>
+        <div id="info">
+            <h:outputText styleClass="student-name" value="Ryazanov Nikita"/>
+            <h:outputText styleClass="page-name" value="Meditation"/>
+            <h:outputText styleClass="student-isu" value="467307"/>
+        </div>
+        <hr/>
+    </header>
 
     <main>
-
 
         <div class="clock-container">
             <h:form id="clock-form" styleClass="clock-form">
                 <div class="clock-background">
                     <p:clock id="clock" widgetVar="clockVar" displayMode="analog" mode="server"
                              value="#{dateTime.now}"
-                             widgetPostRefresh="stopClock()"/>
+                             widgetPostRefresh="stopClock(); repaintClock();"/>
                 </div>
-                <h:outputText id="date" value="#{dateTime.now}"/>
+                <h:outputText id="date" value="#{dateTime.now}" styleClass="date-text"/>
                 <p:remoteCommand name="updateClock" update="date clock"/>
             </h:form>
         </div>
@@ -33,6 +39,7 @@
         <h:form id="redirect-form" styleClass="redirect-form">
             <h:commandButton value="Go to shooting range" action="toRangePage" styleClass="redirect-button"/>
         </h:form>
+
     </main>
 
     <ui:include src="template/footer.xhtml"/>

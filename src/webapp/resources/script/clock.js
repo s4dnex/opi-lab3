@@ -1,4 +1,5 @@
 window.addEventListener("load", stopClock)
+window.addEventListener("load", repaintClock)
 
 setInterval(function () {
     updateClock();
@@ -6,4 +7,8 @@ setInterval(function () {
 
 function stopClock() {
     PF("clockVar").stop();
+}
+
+function repaintClock() {
+    PF("clockVar").pin.attr("fill", "black");
 }

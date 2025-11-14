@@ -1,9 +1,3 @@
-body {
-    background-color: black;
-    color: white;
-    font-family: Helvetica, ui-sans-serif;
-}
-
 main {
     background-image: url("#{resource['image:bg-home.png']}");
     background-repeat: no-repeat;
@@ -37,6 +31,10 @@ main {
     height: 52%;
 }
 
+.clock-container {
+    margin-top: auto;
+}
+
 .clock-form {
     display: flex;
     flex-direction: column;
@@ -49,5 +47,16 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: auto;
+    margin-top: 2rem;
+}
+
+.date-text {
+    padding: 1rem 4rem;
+    background: white;
+    border: 0.1rem solid black;
+    color: black;
+    font-family: Helvetica, ui-sans-serif;
+    font-size: 2rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
 }
