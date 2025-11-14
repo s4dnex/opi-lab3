@@ -1,5 +1,5 @@
-const width = 600;
-const height = 600; // TODO: remove hardcode
+const width = 1200;
+const height = 1200;
 const R = width / 4.25;
 const centerX = width / 2;
 const centerY = height / 2;
@@ -58,7 +58,7 @@ function drawPointsFromTable(ctx, r) {
 }
 
 function drawPoint(ctx, x, y, isInside) {
-    const radius = scale / 10;
+    const radius = scale / 25;
     const px = centerX + x * scale;
     const py = centerY - y * scale;
 
