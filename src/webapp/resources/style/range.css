@@ -4,14 +4,17 @@ body {
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
-    position: relative;
-    min-height: 1080px;
-    display: flex;
-    flex-direction: column;
 }
 
 header {
     background-color: rgba(0, 0, 0, 0.45);
+}
+
+main {
+    position: relative;
+    min-height: 1080px;
+    display: flex;
+    flex-direction: column;
 }
 
 footer {
@@ -69,22 +72,49 @@ footer {
     min-height: 1.2rem;
 }
 
-#input-form .ui-selectoneradio,
-#input-form .ui-selectoneradio .ui-radiobutton {
+#input-form .ui-selectoneradio {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
     margin: 0.5rem 0;
 }
 
-#input-form .ui-selectoneradio .ui-radiobutton {
+#input-form .ui-radiobutton {
+    /* display: flex; */
+    /* justify-content: center; */
+    gap: 0.5rem;
+    margin: 0.5rem 0;
     font-family: inherit;
     font-size: 1rem;
-    color: white;
+    /* color: white; */
     max-width: 15vw;
-    padding: 0.5rem 0.5rem;
+    /* padding: 0.1rem; */
     border: 0.1rem solid white;
     background: rgba(255, 255, 255, 0.12);
+}
+
+#input-form .ui-radiobutton-icon {
+    border-color: transparent;
+    background-color: transparent;
+    color: transparent;
+    border-radius: 0;
+    /* padding: 0.2rem; */
+}
+
+#input-form .ui-radiobutton .ui-radiobutton-box {
+    border-color: transparent;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+#input-form .ui-radiobutton .ui-state-active {
+    border-color: transparent;
+    background: white;
+    border-radius: 0;
+    /* padding: 0.1rem 0.1rem; */
+    /* border-color: red; */
+    /* background: red; */
+    /* box-shadow: 0 0 0 0.2em rgb(165, 0, 0); */
 }
 
 #input-form .ui-button,

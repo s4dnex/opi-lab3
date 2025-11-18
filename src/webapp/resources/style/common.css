@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 body {
     background-color: black;
     color: white;
@@ -8,6 +13,7 @@ header #info {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 0.5rem;
 }
 
 header #info .student-name {
@@ -32,8 +38,16 @@ header #info .student-isu {
     margin: auto 0;
 }
 
-footer {
-    margin: 0.25rem 0;
+header hr {
+    margin-bottom: 0;
+}
+
+footer #footer-info-container {
+    padding: 0.5rem;
+}
+
+footer hr {
+    margin-top: 0;
 }
 
 #github {
@@ -49,10 +63,12 @@ footer {
     transition: ease 0.5ms;
 }
 
-input[type="submit"] {
+input[type="submit"],
+.redirect-button {
     padding: 1rem 4rem;
-    background: transparent;
+    background: black;
     border: 0.1rem solid white;
+    border-radius: 0;
     color: white;
     font-family: Helvetica, ui-sans-serif;
     font-size: 2rem;
@@ -62,7 +78,8 @@ input[type="submit"] {
     transition: all 0.3s ease;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+.redirect-button:hover {
     background: white;
     box-shadow: 0 0 1rem 0.25rem lightgray;
     color: black;
