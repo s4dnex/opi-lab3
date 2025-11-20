@@ -19,7 +19,8 @@ public class HibernatePointStorage implements PointStorage {
 
     @Override
     public List<Point> getPoints() {
-        return entityManager.createQuery("SELECT p FROM Point p", Point.class)
+        return entityManager
+                .createQuery("SELECT p FROM Point AS p ORDER BY p.requestTime DESC", Point.class)
                 .getResultList();
     }
 

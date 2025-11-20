@@ -57,6 +57,6 @@ public class AreaBean implements Serializable {
     }
 
     public List<Point> getPoints() {
-        return pointStorage.getPoints().reversed();
+        return pointStorage.getPoints();
     }
 }
