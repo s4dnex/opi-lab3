@@ -1,35 +1,50 @@
 package sadnex.web.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "points")
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "x")
     private double x;
+
+    @Column(name = "y")
     private double y;
+
+    @Column(name = "r")
     private int r;
+
+    @Column(name = "is_hit")
     private boolean isHit;
-    private Timestamp requestTime;
+
+    @NotNull
+    @Column(name = "request_time")
+    private LocalDateTime requestTime;
 
     public Point() {
 
     }
 
-    public Point(double x, double y, int r, Timestamp requestTime) {
+    public Point(double x, double y, int r, LocalDateTime requestTime) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.requestTime = requestTime;
     }
 
-    public Point(double x, double y, int r, boolean isHit, Timestamp requestTime) {
+    public Point(double x, double y, int r, boolean isHit, LocalDateTime requestTime) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -57,7 +72,7 @@ public class Point {
         return isHit;
     }
 
-    public Timestamp getRequestTime() {
+    public LocalDateTime getRequestTime() {
         return requestTime;
     }
 
@@ -81,7 +96,7 @@ public class Point {
         this.isHit = isHit;
     }
 
-    public void setRequestTime(Timestamp requestTime) {
+    public void setRequestTime(LocalDateTime requestTime) {
         this.requestTime = requestTime;
     }
 }

@@ -7,14 +7,15 @@ import sadnex.web.entity.Point;
 import sadnex.web.storage.PointStorage;
 import sadnex.web.util.HitChecker;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Named("area")
 @RequestScoped
 public class AreaBean implements Serializable {
+    @Serial
     private static final long serialVersionUID = 52L;
 
     @Inject
@@ -51,7 +52,7 @@ public class AreaBean implements Serializable {
     }
 
     public void createPoint() {
-        Point point = new Point(x, y, r, Timestamp.valueOf(LocalDateTime.now()));
+        Point point = new Point(x, y, r, LocalDateTime.now());
         point.setHit(hitChecker.checkHit(point));
         pointStorage.addPoint(point);
     }
