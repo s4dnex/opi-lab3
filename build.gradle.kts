@@ -16,7 +16,7 @@ dependencies {
         libs.primefaces.get().version,
         classifier = "jakarta"
     )
-    implementation(libs.hibernate)
+    implementation(libs.bundles.hibernate)
     implementation(libs.gson)
 }
 

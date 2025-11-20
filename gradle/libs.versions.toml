@@ -4,16 +4,19 @@ shadow = "9.1.0"
 gson = "2.13.1"
 jakarta-web-api = "10.0.0"
 primefaces = "15.0.0"
-hibernate = "6.6.34.Final"
+hibernate-orm = "6.6.34.Final"
+hibernate-validator = "8.0.3.Final"
 
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 jakarta-web-api = { module = "jakarta.platform:jakarta.jakartaee-web-api", version.ref = "jakarta-web-api" }
 primefaces = { module = "org.primefaces:primefaces", version.ref = "primefaces" }
-hibernate = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
+hibernate-orm = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate-orm" }
+hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "hibernate-validator" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 
 [bundles]
 jakarta = ["jakarta-web-api"]
+hibernate = ["hibernate-orm", "hibernate-validator"]
