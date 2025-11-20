@@ -87,7 +87,9 @@
 
                 <p:column>
                     <f:facet name="header">Date</f:facet>
-                    #{p.requestTime}
+                    <h:outputText value="#{p.requestTime}">
+                        <f:convertDateTime type="localDateTime" pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
                 </p:column>
 
                 <p:column>

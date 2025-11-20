@@ -1,22 +1,20 @@
 package sadnex.web.bean;
 
 
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 @Named("dateTime")
-@RequestScoped
+@ApplicationScoped
 public class DateTimeBean implements Serializable {
+    @Serial
     private static final long serialVersionUID = 52L;
 
-    private LocalDateTime now = LocalDateTime.now();
-
-    public String getNow() {
-        return now.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    public LocalDateTime getNow() {
+        return LocalDateTime.now();
     }
 }

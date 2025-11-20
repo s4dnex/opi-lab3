@@ -31,7 +31,9 @@
                              value="#{dateTime.now}"
                              widgetPostRefresh="stopClock(); repaintClock();"/>
                 </div>
-                <h:outputText id="date" value="#{dateTime.now}" styleClass="date-text"/>
+                <h:outputText id="date" value="#{dateTime.now}" styleClass="date-text">
+                    <f:convertDateTime type="localDateTime" pattern="dd.MM.yyyy HH:mm:ss"/>
+                </h:outputText>
                 <p:remoteCommand name="updateClock" update="date clock"/>
             </h:form>
         </div>
