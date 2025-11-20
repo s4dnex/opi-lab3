@@ -170,6 +170,11 @@ footer {
 .table-section thead th {
     text-transform: uppercase;
     background: rgba(0, 0, 0, 0.5);
+    border: 0.1rem solid white;
+}
+
+.table-section tbody tr {
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .table-section tbody tr:nth-child(even) {
@@ -178,4 +183,67 @@ footer {
 
 .table-section tbody tr:hover {
     background: rgba(255, 255, 255, 0.03);
+}
+
+.ui-paginator-prev, .ui-paginator-next {
+    font-family: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: 0.1rem solid white;
+    background: black;
+    color: white;
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+}
+
+.ui-paginator-prev:hover, .ui-paginator-next:hover {
+    background: white;
+    box-shadow: 0 0 0.25rem 0.05rem lightgray;
+    color: black;
+}
+
+.ui-state-disabled {
+    background-color: gray;
+    /* cursor: default; */
+}
+
+.ui-paginator .ui-paginator-first:before {
+    content: "\2C2\2C2"; /* << */
+}
+
+.ui-paginator .ui-paginator-prev:before {
+    content: "\2C2"; /* < */
+}
+
+.ui-paginator .ui-paginator-next:before {
+    content: "\2C3"; /* > */
+}
+
+.ui-paginator .ui-paginator-last:before {
+    content: "\2C3\2C3"; /* >> */
+}
+
+.ui-paginator-jtp-select {
+    font-family: inherit;
+    font-size: 1.5rem;
+    color: white;
+    background: black;
+    border: 0.1rem solid white;
+    border-radius: 0;
+    padding: 0 0 0 0.5rem;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ui-paginator-jtp-select.ui-state-focus {
+    border-radius: 0;
+}
+
+.ui-paginator-jtp-select:hover,
+.ui-paginator-jtp-select:active {
+    background: white;
+    color: black;
+    box-shadow: 0 0 0.25rem lightgray;
+    border-radius: 0;
 }

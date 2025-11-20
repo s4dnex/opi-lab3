@@ -27,7 +27,7 @@ function drawGraph() {
 }
 
 function drawPointsFromTable(ctx, r) {
-    const table = document.querySelector('#points-table');
+    const table = document.querySelector('#hidden-points-table');
     const points = [];
 
     if (table) {

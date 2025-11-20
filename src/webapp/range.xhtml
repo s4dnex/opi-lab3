@@ -48,15 +48,17 @@
                     <f:selectItem itemLabel="3" itemValue="3"/>
                     <f:selectItem itemLabel="4" itemValue="4"/>
                     <f:selectItem itemLabel="5" itemValue="5"/>
-                    <p:ajax event="change" oncomplete="drawGraph()"/>
+                    <p:ajax event="change" oncomplete="drawGraph(); "/>
                 </p:selectOneRadio>
                 <br/>
                 <p:selectBooleanCheckbox id="click" widgetVar="clickCheckboxVar" value="false"
-                                         style="display: none"/>
+                                         styleClass="hidden"/>
                 <p:commandButton value="Submit" action="#{area.createPoint}"
-                                 update="points-table @form" oncomplete="drawGraph(); uncheckClick();"/>
+                                 update="hidden-points-table points-table @form"
+                                 oncomplete="drawGraph(); uncheckClick(); "/>
                 <p:remoteCommand name="submitClickPoint" action="#{area.createPoint}"
-                                 update="points-table @form" oncomplete="drawGraph(); uncheckClick();"/>
+                                 update="hidden-points-table points-table @form"
+                                 oncomplete="drawGraph(); uncheckClick(); "/>
             </h:form>
         </div>
 
@@ -65,7 +67,36 @@
         </h:form>
 
         <div class="table-section">
-            <h:dataTable id="points-table" value="#{area.points}" var="p">
+            <p:dataTable id="points-table" value="#{area.points}" var="p" lazy="true" paginator="true"
+                         paginatorPosition="top" rows="10"
+                         paginatorTemplate="{PreviousPageLink} {JumpToPageDropdown} {NextPageLink}">
+                <p:column>
+                    <f:facet name="header">X</f:facet>
+                    #{p.x}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">Y</f:facet>
+                    #{p.y}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">R</f:facet>
+                    #{p.r}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{p.requestTime}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{p.hit ? 'HIT' : 'MISS'}
+                </p:column>
+            </p:dataTable>
+
+            <h:dataTable id="hidden-points-table" value="#{area.points}" var="p" styleClass="hidden">
                 <h:column>
                     <f:facet name="header">X</f:facet>
                     #{p.x}
