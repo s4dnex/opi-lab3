@@ -15,7 +15,7 @@ public class ClusterScheduler {
     @Schedule(hour = "*", minute = "*/5")
     public void cluster() {
         // System.out.println("ClusterScheduler working");
-        entityManager.createNativeQuery("CLUSTER points USING points_request_time_desc_idx;").executeUpdate();
+        entityManager.createNativeQuery("CLUSTER points;").executeUpdate();
         // System.out.println("ClusterScheduler stopped");
     }
 }
