@@ -1,0 +1,62 @@
+main {
+    background-image: url("#{resource['image:bg-home.png']}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    min-height: 1080px;
+    display: flex;
+    flex-direction: column;
+}
+
+.clock-background {
+    background-image: url("#{resource['image:clock.png']}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    transform: translate(-50%, -50%);
+    width: clamp(600px, 35vw, 1000px);
+    height: clamp(600px, 35vw, 1000px);
+}
+
+.ui-analog-clock {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 52%;
+    height: 52%;
+}
+
+.clock-container {
+    margin-top: auto;
+}
+
+.clock-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.redirect-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+}
+
+.date-text {
+    padding: 1rem 4rem;
+    background: white;
+    border: 0.1rem solid black;
+    color: black;
+    font-family: Helvetica, ui-sans-serif;
+    font-size: 2rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}

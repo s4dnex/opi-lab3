@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="primefaces">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Shooting Range</title>
+    <link rel="icon" type="image/svg" href="${resource['image/icon.svg']}"/>
+    <h:outputStylesheet library="style" name="common.css"/>
+    <h:outputStylesheet library="style" name="range.css"/>
+    <h:outputScript library="script" name="graph.js"/>
+</h:head>
+<h:body>
+    <header>
+        <div id="info">
+            <h:outputText styleClass="student-name" value="Ryazanov Nikita"/>
+            <h:outputText styleClass="page-name" value="Shooting range"/>
+            <h:outputText styleClass="student-isu" value="467307"/>
+        </div>
+        <hr/>
+    </header>
+
+    <main>
+        <div class="input-graph-container">
+            <div class="graph-container">
+                <h:graphicImage id="graph-image" value="" onclick="onGraphClick(event)"/>
+            </div>
+
+            <h:form id="input-form" styleClass="input-form">
+                <h:outputLabel for="x" value="X:"/>
+                <h:inputText id="x" value="#{area.x}" required="true">
+                    <f:validator validatorId="xValidator"/>
+                </h:inputText>
+                <h:message id="x-message" for="x"/>
+                <br/>
+                <h:outputLabel for="y" value="Y:"/>
+                <h:inputText id="y" value="#{area.y}" required="true">
+                    <f:validator validatorId="yValidator"/>
+                </h:inputText>
+                <h:message id="y-message" for="y"/>
+                <br/>
+                <h:outputLabel for="r" value="R:"/>
+                <p:selectOneRadio id="r" value="#{area.r}" required="true">
+                    <f:selectItem itemLabel="1" itemValue="1"/>
+                    <f:selectItem itemLabel="2" itemValue="2"/>
+                    <f:selectItem itemLabel="3" itemValue="3"/>
+                    <f:selectItem itemLabel="4" itemValue="4"/>
+                    <f:selectItem itemLabel="5" itemValue="5"/>
+                    <p:ajax event="change" oncomplete="drawGraph(); "/>
+                </p:selectOneRadio>
+                <br/>
+                <p:selectBooleanCheckbox id="click" widgetVar="clickCheckboxVar" value="false"
+                                         styleClass="hidden"/>
+                <p:commandButton value="Submit" action="#{area.createPoint}"
+                                 update="hidden-points-table points-table @form"
+                                 oncomplete="drawGraph(); uncheckClick(); "/>
+                <p:remoteCommand name="submitClickPoint" action="#{area.createPoint}"
+                                 update="hidden-points-table points-table @form"
+                                 oncomplete="drawGraph(); uncheckClick(); "/>
+            </h:form>
+        </div>
+
+        <h:form id="redirect-form" styleClass="redirect-form">
+            <h:commandButton value="Back to meditation" action="toMeditationPage" styleClass="redirect-button"/>
+        </h:form>
+
+        <div class="table-section">
+            <p:dataTable id="points-table" value="#{area.points}" var="p" lazy="true" paginator="true"
+                         paginatorPosition="top" rows="10"
+                         paginatorTemplate="{PreviousPageLink} {JumpToPageDropdown} {NextPageLink}">
+                <p:column>
+                    <f:facet name="header">X</f:facet>
+                    #{p.x}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">Y</f:facet>
+                    #{p.y}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">R</f:facet>
+                    #{p.r}
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">Date</f:facet>
+                    <h:outputText value="#{p.requestTime}">
+                        <f:convertDateTime type="localDateTime" pattern="dd.MM.yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{p.hit ? 'HIT' : 'MISS'}
+                </p:column>
+            </p:dataTable>
+
+            <h:dataTable id="hidden-points-table" value="#{area.points}" var="p" styleClass="hidden">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    #{p.x}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    #{p.y}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    #{p.r}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{p.requestTime}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{p.hit ? 'HIT' : 'MISS'}
+                </h:column>
+            </h:dataTable>
+        </div>
+    </main>
+
+    <ui:include src="template/footer.xhtml"/>
+</h:body>
+</html>

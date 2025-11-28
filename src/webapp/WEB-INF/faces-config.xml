@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="https://jakarta.ee/xml/ns/jakartaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                                  https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
+              version="4.0">
+
+    <navigation-rule>
+        <from-view-id>/meditation.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>toRangePage</from-outcome>
+            <to-view-id>/range.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/range.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>toMeditationPage</from-outcome>
+            <to-view-id>/meditation.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <validator>
+        <validator-id>xValidator</validator-id>
+        <validator-class>sadnex.web.validation.XValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>yValidator</validator-id>
+        <validator-class>sadnex.web.validation.YValidator</validator-class>
+    </validator>
+
+</faces-config>
