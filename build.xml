@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="opi-lab3" default="hello">
+    <property file="build.properties"/>
+
+    <target name="hello">
+        <echo>Hello, World!</echo>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${classes.build.dir}"/>
+        <javac destdir="${classes.build.dir}" includeantruntime="false">
+            <classpath>
+                <path>
+                    <fileset dir="${backend.libs.dir}" includes="*.jar"/>
+                    <fileset dir="${backend.src.dir}" includes="*.java"/>
+                </path>
+            </classpath>
+            <src path="${src.dir}"/>
+        </javac>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+</project>
