@@ -18,6 +18,7 @@ dependencies {
     )
     implementation(libs.bundles.hibernate)
     implementation(libs.gson)
+    testImplementation(libs.junit)
 }
 
 java {
@@ -54,4 +55,17 @@ tasks.register<Copy>("copyDependencies") {
 
     from(configurations.testRuntimeClasspath)
     into(layout.projectDirectory.dir("libs"))
+}
+
+tasks.test {
+    useJUnit()
+    testLogging {
+        events("failed", "skipped")
+        showStandardStreams = true
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showCauses = true
+        showExceptions = true
+        showStackTraces = true
+    }
+    maxParallelForks = Runtime.getRuntime().availableProcessors()
 }
