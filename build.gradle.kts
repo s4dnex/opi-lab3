@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.bundles.hibernate)
     implementation(libs.gson)
     testImplementation(libs.junit)
+    testImplementation(libs.h2database)
 }
 
 java {

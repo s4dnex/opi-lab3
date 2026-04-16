@@ -15,7 +15,7 @@ public class SwordHitCheckerTest {
     private SwordHitChecker hitChecker;
 
     @Before
-    public void setUp() {
+    public void init() {
         hitChecker = new SwordHitChecker();
     }
 

@@ -7,6 +7,7 @@ primefaces = "15.0.0"
 hibernate-orm = "6.6.34.Final"
 hibernate-validator = "8.0.3.Final"
 junit = "4.13.2"
+h2 = "2.3.232"
 
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -15,6 +16,7 @@ primefaces = { module = "org.primefaces:primefaces", version.ref = "primefaces" 
 hibernate-orm = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate-orm" }
 hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "hibernate-validator" }
 junit = { module = "junit:junit", version.ref = "junit" }
+h2database = { group = "com.h2database", name = "h2", version.ref = "h2" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
