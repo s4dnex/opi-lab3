@@ -41,3 +41,17 @@ tasks.war {
 
     archiveFileName = "ROOT.war"
 }
+
+tasks.register<Copy>("copyDependencies") {
+    from(configurations.compileClasspath)
+    into(layout.projectDirectory.dir("libs"))
+
+    from(configurations.runtimeClasspath)
+    into(layout.projectDirectory.dir("libs"))
+
+    from(configurations.testCompileClasspath)
+    into(layout.projectDirectory.dir("libs"))
+
+    from(configurations.testRuntimeClasspath)
+    into(layout.projectDirectory.dir("libs"))
+}
