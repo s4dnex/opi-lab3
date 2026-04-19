@@ -14,7 +14,7 @@
                     <fileset dir="${backend.src.java.dir}" includes="**/*.java"/>
                 </path>
             </classpath>
-            <src path="${src.dir}/main"/>
+            <src path="${backend.src.full.dir}"/>
         </javac>
     </target>
 
@@ -143,7 +143,7 @@
         <exec executable="git" unless:true="${forbidden.changes.found}">
             <arg value="commit"/>
             <arg value="-m"/>
-            <arg value="${commit.message}"/>
+            <arg value="${commit.msg}"/>
         </exec>
     </target>
 
