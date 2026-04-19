@@ -30,7 +30,29 @@
     </target>
 
     <target name="test" depends="build">
-        <!--TODO-->
+        <mkdir dir="${test.build.classes.dir}"/>
+        <javac destdir="${test.build.classes.dir}" includeantruntime="false">
+            <classpath>
+                <path>
+                    <fileset dir="${backend.libs.dir}" includes="*.jar"/>
+                    <pathelement location="${build.classes.dir}"/>
+                </path>
+            </classpath>
+            <src path="${test.backend.src.dir}"/>
+        </javac>
+
+        <junit printsummary="on" haltonfailure="yes">
+            <classpath>
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${backend.src.resource.dir}"/>
+                <pathelement location="${test.build.classes.dir}"/>
+                <fileset dir="${backend.libs.dir}" includes="*.jar"/>
+            </classpath>
+            <formatter type="plain" usefile="false"/>
+            <batchtest todir="${report.dir}">
+                <fileset dir="${test.build.classes.dir}"/>
+            </batchtest>
+        </junit>
     </target>
 
     <target name="xml">
