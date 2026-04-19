@@ -60,7 +60,11 @@
     </target>
 
     <target name="music" depends="build">
-        <!--TODO-->
+        <sound>
+            <success source="${assets.sound.dir}/success.wav"/>
+            <fail source="${assets.sound.dir}/fail.wav"/>
+        </sound>
+        <property name="music.done" value="true"/>
     </target>
 
     <target name="doc">
