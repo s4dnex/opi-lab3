@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="opi-lab3" default="build">
+<project name="opi-lab3" default="build" xmlns:if="ant:if" xmlns:unless="ant:unless">
     <property file="build.properties"/>
 
     <target name="compile" depends="clean">
@@ -96,7 +96,55 @@
     </target>
 
     <target name="diff">
-        <!--TODO-->
+        <exec executable="git">
+            <arg value="add"/>
+            <arg value="."/>
+        </exec>
+
+        <exec executable="git" outputproperty="git.diff">
+            <arg value="diff"/>
+            <arg value="--name-only"/>
+            <arg value="--staged"/>
+        </exec>
+
+        <condition property="no.changes">
+            <equals arg1="${git.diff}" arg2=""/>
+        </condition>
+        <fail if="no.changes" message="Nothing to commit." />
+
+        <loadfile property="forbidden.list" srcFile="${commit.forbidden.list.file}">
+            <filterchain>
+                <tokenfilter>
+                    <trim/>
+                    <replaceregex pattern="\." replace="\\." flags="g"/>
+                </tokenfilter>
+                <prefixlines prefix="|"/>
+                <striplinebreaks/>
+                <tokenfilter>
+                    <replaceregex pattern="^\|" replace=""/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+
+        <echo message="list: ${forbidden.list}"/>
+        <echo message="diff: ${git.diff}"/>
+
+        <condition property="forbidden.changes.found">
+            <matches string="${git.diff}">
+                <regexp pattern="${forbidden.list}"/>
+            </matches>
+        </condition>
+
+        <echo message="found: ${forbidden.changes.found}"/>
+
+        <echo message="COMMIT ABORTED: One or more changed files are in the forbidden list!" if:true="${forbidden.changes.found}"/>
+
+        <echo message="No restricted classes affected. Committing..." unless:true="${forbidden.changes.found}"/>
+        <exec executable="git" unless:true="${forbidden.changes.found}">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="${commit.message}"/>
+        </exec>
     </target>
 
     <target name="alt">
