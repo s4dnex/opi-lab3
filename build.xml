@@ -67,12 +67,13 @@
         </xmlvalidate>
     </target>
 
-    <target name="music" depends="build">
+    <target name="music">
         <sound>
             <success source="${assets.sound.dir}/success.wav"/>
             <fail source="${assets.sound.dir}/fail.wav"/>
         </sound>
-        <property name="music.done" value="true"/>
+
+        <antcall target="build"/>
     </target>
 
     <target name="doc">
