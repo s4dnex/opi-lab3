@@ -171,6 +171,39 @@
     </target>
 
     <target name="alt">
-        <!--TODO-->
+        <delete dir="${alt.backend.src.full.dir}"/>
+        <mkdir dir="${alt.backend.src.full.dir}"/>
+
+        <copy todir="${alt.backend.src.full.dir}">
+            <fileset dir="${backend.src.full.dir}"/>
+        </copy>
+
+        <replace dir="${alt.backend.src.java.dir}" replacefilterfile="${alt.dir}/alt.classes.properties"/>
+
+        <loadproperties srcFile="${alt.dir}/alt.classes.properties" prefix="rename."/>
+
+        <!-- TODO: не работает, либо подключить Ant-Contrib, либо искать другие варианты-->
+        <!--<move todir="${alt.backend.src.java.dir}">-->
+        <!--    <fileset dir="${alt.backend.src.java.dir}" includes="**/*.java"/>-->
+        <!--    <scriptmapper language="javascript">-->
+        <!--        <![CDATA[-->
+        <!--        var oldPath = source;-->
+
+        <!--        var fileName = oldPath.replace(/^.*[\\\/]/, '').replace(/\.java$/, '');-->
+
+        <!--        var newClassName = project.getProperty("rename." + fileName);-->
+
+        <!--        if (newClassName != null) {-->
+        <!--            var newPath = oldPath.replace(fileName + ".java", newClassName + ".java");-->
+        <!--            self.addMappedName(newPath);-->
+        <!--        }-->
+        <!--        ]]>-->
+        <!--    </scriptmapper>-->
+        <!--</move>-->
+
+        <antcall target="build">
+            <param name="backend.src.full.dir" value="${alt.backend.src.full.dir}"/>
+            <param name="backend.src.java.dir" value="${alt.backend.src.java.dir}"/>
+        </antcall>
     </target>
 </project>

@@ -6,3 +6,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore temp files for alt target
+alt/src
