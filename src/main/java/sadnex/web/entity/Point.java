@@ -10,6 +10,12 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity-класс. Данные материализуются в таблице point.
+ * Реализованы геттеры, сеттеры всех полей.
+ * Есть пустой конструктор, конструктор для необработанной точки и конструктор заполняющий все поля.
+ * @author s4dnex
+ */
 @Entity
 @Table(name = "points")
 public class Point {

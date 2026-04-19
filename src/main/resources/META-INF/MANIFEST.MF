@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.10.17
+Created-By: Apache Ant Apache Ant(TM) version 1.10.17 compiled on Apri
+ l 6 2026
+Sources-MD5: f6031d7adb91861316f3377996c45647
+Sources-SHA1: ac5155c29551b4730f89c2807802ef62e9782af0
+

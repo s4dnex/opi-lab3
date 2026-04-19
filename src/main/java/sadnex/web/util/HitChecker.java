@@ -2,6 +2,10 @@ package sadnex.web.util;
 
 import sadnex.web.entity.Point;
 
+/**
+ * Интерфейс для проверки точки на попадание.
+ * @author s4dnex
+ */
 public interface HitChecker {
-    public boolean checkHit(Point point);
+    boolean checkHit(Point point);
 }

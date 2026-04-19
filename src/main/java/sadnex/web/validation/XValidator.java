@@ -7,6 +7,11 @@ import jakarta.faces.validator.Validator;
 import jakarta.faces.validator.ValidatorException;
 import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 
+/**
+ * JSF валидатор координаты X. Используется в range.xhtml.
+ * Значение должно быть от -3 до 3 не включительно.
+ * @author s4dnex
+ */
 public class XValidator implements Validator<Double> {
     @Override
     public void validate(FacesContext context, UIComponent component, Double value) throws ValidatorException {

@@ -8,6 +8,10 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * CDI-бин. Позволяет из фронт-энда получить текущее время на сервере.
+ * @author s4dnex
+ */
 @Named("dateTime")
 @ApplicationScoped
 public class DateTimeBean implements Serializable {
