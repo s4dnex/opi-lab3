@@ -133,7 +133,8 @@
         <condition property="no.changes">
             <equals arg1="${git.diff}" arg2=""/>
         </condition>
-        <fail if="no.changes" message="Nothing to commit." />
+
+        <fail if:true="${no.changes}" message="Nothing to commit." />
 
         <loadfile property="forbidden.list" srcFile="${commit.forbidden.list.file}">
             <filterchain>
@@ -159,7 +160,7 @@
         </condition>
 
         <!--<echo message="found: ${forbidden.changes.found}"/>-->
-        <echo message="COMMIT ABORTED: One or more changed files are in the forbidden list!" if:true="${forbidden.changes.found}"/>
+        <fail if:true="${forbidden.changes.found}" message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
 
         <echo message="No restricted classes affected. Committing..." unless:true="${forbidden.changes.found}"/>
         <exec executable="git" unless:true="${forbidden.changes.found}">
