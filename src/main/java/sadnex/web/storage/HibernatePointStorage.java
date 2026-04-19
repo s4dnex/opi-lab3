@@ -12,6 +12,10 @@ public class HibernatePointStorage implements PointStorage {
     @PersistenceContext(unitName = "web-lab3")
     private EntityManager entityManager;
 
+    public HibernatePointStorage() {
+
+    }
+
     public HibernatePointStorage(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
