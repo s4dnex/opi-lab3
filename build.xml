@@ -149,8 +149,8 @@
             </filterchain>
         </loadfile>
 
-        <echo message="list: ${forbidden.list}"/>
-        <echo message="diff: ${git.diff}"/>
+        <!--<echo message="list: ${forbidden.list}"/>-->
+        <!--<echo message="diff: ${git.diff}"/>-->
 
         <condition property="forbidden.changes.found">
             <matches string="${git.diff}">
@@ -158,8 +158,7 @@
             </matches>
         </condition>
 
-        <echo message="found: ${forbidden.changes.found}"/>
-
+        <!--<echo message="found: ${forbidden.changes.found}"/>-->
         <echo message="COMMIT ABORTED: One or more changed files are in the forbidden list!" if:true="${forbidden.changes.found}"/>
 
         <echo message="No restricted classes affected. Committing..." unless:true="${forbidden.changes.found}"/>
