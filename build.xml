@@ -9,7 +9,7 @@
             <classpath>
                 <path>
                     <fileset dir="${backend.libs.dir}" includes="*.jar"/>
-                    <fileset dir="${backend.src.dir}" includes="*.java"/>
+                    <fileset dir="${backend.src.java.dir}" includes="*.java"/>
                 </path>
             </classpath>
             <src path="${src.dir}/main"/>
@@ -17,7 +17,12 @@
     </target>
 
     <target name="build" depends="compile">
-        <!--TODO-->
+        <war destfile="${build.dir}/${destination-name}.war" webxml="${frontend.src.dir}/WEB-INF/web.xml">
+            <fileset dir="${frontend.src.dir}"/>
+            <metainf dir="${backend.src.resource.dir}/META-INF"/>
+            <classes dir="${build.dir}/classes"/>
+            <lib dir="${backend.libs.dir}"/>
+        </war>
     </target>
 
     <target name="clean">
