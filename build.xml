@@ -56,7 +56,13 @@
     </target>
 
     <target name="xml">
-        <!--TODO-->
+        <xmlvalidate>
+            <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/dynamic" value="true"/>
+            <attribute name="http://apache.org/xml/features/nonvalidating/load-external-dtd" value="true"/>
+            <fileset dir="." includes="**/*.xml"/>
+        </xmlvalidate>
     </target>
 
     <target name="music" depends="build">
