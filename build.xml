@@ -71,7 +71,7 @@
         <delete dir="${backend.src.resource.dir}" includes="messages_*.properties"/>
         <native2ascii src="${backend.src.resource.dir}/locale"
                       dest="${backend.src.resource.dir}"
-                      includes="locale_*.properties"/>
+                      includes="messages_*.properties"/>
     </target>
 
     <target name="env">
