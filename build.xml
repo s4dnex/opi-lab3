@@ -8,8 +8,8 @@
         <javac destdir="${build.classes.dir}" includeantruntime="false">
             <classpath>
                 <path>
-                    <fileset dir="${backend.libs.dir}" includes="*.jar"/>
-                    <fileset dir="${backend.src.java.dir}" includes="*.java"/>
+                    <fileset dir="${backend.libs.dir}" includes="**/*.jar"/>
+                    <fileset dir="${backend.src.java.dir}" includes="**/*.java"/>
                 </path>
             </classpath>
             <src path="${src.dir}/main"/>
