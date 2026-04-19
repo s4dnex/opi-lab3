@@ -4,15 +4,15 @@
     <property file="build.properties"/>
 
     <target name="compile" depends="clean">
-        <mkdir dir="${classes.build.dir}"/>
-        <javac destdir="${classes.build.dir}" includeantruntime="false">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac destdir="${build.classes.dir}" includeantruntime="false">
             <classpath>
                 <path>
                     <fileset dir="${backend.libs.dir}" includes="*.jar"/>
                     <fileset dir="${backend.src.dir}" includes="*.java"/>
                 </path>
             </classpath>
-            <src path="${src.dir}"/>
+            <src path="${src.dir}/main"/>
         </javac>
     </target>
 
