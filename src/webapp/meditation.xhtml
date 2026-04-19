@@ -6,7 +6,7 @@
       xmlns:p="primefaces">
 <h:head>
     <meta charset="UTF-8"/>
-    <title>Meditation</title>
+    <title>#{msg.meditation_title}</title>
     <link rel="icon" type="image/svg" href="${resource['image/icon.svg']}"/>
     <h:outputStylesheet library="style" name="common.css"/>
     <h:outputStylesheet library="style" name="meditation.css"/>
@@ -15,9 +15,9 @@
 <h:body>
     <header>
         <div id="info">
-            <h:outputText styleClass="student-name" value="Ryazanov Nikita"/>
-            <h:outputText styleClass="page-name" value="Meditation"/>
-            <h:outputText styleClass="student-isu" value="467307"/>
+            <h:outputText styleClass="student-name" value="#{msg.student_name}"/>
+            <h:outputText styleClass="page-name" value="#{msg.meditation_page_name}"/>
+            <h:outputText styleClass="student-isu" value="#{msg.student_isu}"/>
         </div>
         <hr/>
     </header>
@@ -40,7 +40,7 @@
 
 
         <h:form id="redirect-form" styleClass="redirect-form">
-            <h:commandButton value="Go to shooting range" action="toRangePage" styleClass="redirect-button"/>
+            <h:commandButton value="#{msg.to_shooting_range_button}" action="toRangePage" styleClass="redirect-button"/>
         </h:form>
 
     </main>

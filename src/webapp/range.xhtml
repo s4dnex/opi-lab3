@@ -6,7 +6,7 @@
       xmlns:p="primefaces">
 <h:head>
     <meta charset="UTF-8"/>
-    <title>Shooting Range</title>
+    <title>#{msg.range_title}</title>
     <link rel="icon" type="image/svg" href="${resource['image/icon.svg']}"/>
     <h:outputStylesheet library="style" name="common.css"/>
     <h:outputStylesheet library="style" name="range.css"/>
@@ -15,9 +15,9 @@
 <h:body>
     <header>
         <div id="info">
-            <h:outputText styleClass="student-name" value="Ryazanov Nikita"/>
-            <h:outputText styleClass="page-name" value="Shooting range"/>
-            <h:outputText styleClass="student-isu" value="467307"/>
+            <h:outputText styleClass="student-name" value="#{msg.student_name}"/>
+            <h:outputText styleClass="page-name" value="#{msg.range_page_name}"/>
+            <h:outputText styleClass="student-isu" value="#{msg.student_isu}"/>
         </div>
         <hr/>
     </header>
@@ -53,7 +53,7 @@
                 <br/>
                 <p:selectBooleanCheckbox id="click" widgetVar="clickCheckboxVar" value="false"
                                          styleClass="hidden"/>
-                <p:commandButton value="Submit" action="#{area.createPoint}"
+                <p:commandButton value="#{msg.range_submit_button}" action="#{area.createPoint}"
                                  update="hidden-points-table points-table @form"
                                  oncomplete="drawGraph(); uncheckClick(); "/>
                 <p:remoteCommand name="submitClickPoint" action="#{area.createPoint}"
@@ -63,7 +63,7 @@
         </div>
 
         <h:form id="redirect-form" styleClass="redirect-form">
-            <h:commandButton value="Back to meditation" action="toMeditationPage" styleClass="redirect-button"/>
+            <h:commandButton value="#{msg.to_meditation_button}" action="toMeditationPage" styleClass="redirect-button"/>
         </h:form>
 
         <div class="table-section">
@@ -86,14 +86,14 @@
                 </p:column>
 
                 <p:column>
-                    <f:facet name="header">Date</f:facet>
+                    <f:facet name="header">#{msg.range_table_date}</f:facet>
                     <h:outputText value="#{p.requestTime}">
                         <f:convertDateTime type="localDateTime" pattern="dd.MM.yyyy HH:mm:ss"/>
                     </h:outputText>
                 </p:column>
 
                 <p:column>
-                    <f:facet name="header">Status</f:facet>
+                    <f:facet name="header">#{msg.range_table_status}</f:facet>
                     #{p.hit ? 'HIT' : 'MISS'}
                 </p:column>
             </p:dataTable>
