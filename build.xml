@@ -5,7 +5,9 @@
 
     <target name="compile" depends="clean">
         <mkdir dir="${build.classes.dir}"/>
-        <javac destdir="${build.classes.dir}" includeantruntime="false">
+        <javac destdir="${build.classes.dir}"
+               includeantruntime="false"
+               release="${java.target}">
             <classpath>
                 <path>
                     <fileset dir="${backend.libs.dir}" includes="**/*.jar"/>
@@ -16,8 +18,8 @@
         </javac>
     </target>
 
-    <target name="build" depends="compile">
-        <war destfile="${build.dir}/${destination-name}.war" webxml="${frontend.src.dir}/WEB-INF/web.xml">
+    <target name="build" depends="compile, native2ascii">
+        <war destfile="${build.dir}/ROOT.war" webxml="${frontend.src.dir}/WEB-INF/web.xml">
             <fileset dir="${frontend.src.dir}"/>
             <metainf dir="${backend.src.resource.dir}/META-INF"/>
             <classes dir="${build.dir}/classes"/>
@@ -61,7 +63,7 @@
             <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
             <attribute name="http://apache.org/xml/features/validation/dynamic" value="true"/>
             <attribute name="http://apache.org/xml/features/nonvalidating/load-external-dtd" value="true"/>
-            <fileset dir="." includes="**/*.xml"/>
+            <fileset dir="${basedir}" includes="**/*.xml"/>
         </xmlvalidate>
     </target>
 
@@ -84,8 +86,8 @@
                       includes="messages_*.properties"/>
     </target>
 
-    <target name="env">
-        <!--TODO-->
+    <target name="env" depends="build">
+        <!-- ??? -->
     </target>
 
     <target name="team">
