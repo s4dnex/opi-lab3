@@ -19,7 +19,7 @@
     </target>
 
     <target name="build" depends="compile, native2ascii">
-        <war destfile="${build.dir}/ROOT.war"
+        <war destfile="${artifact.dir}/${artifact.name}"
              webxml="${frontend.src.dir}/WEB-INF/web.xml"
              manifest="${backend.src.resource.dir}/META-INF/MANIFEST.MF">
             <fileset dir="${frontend.src.dir}"/>
@@ -115,7 +115,56 @@
     </target>
 
     <target name="team">
-        <!--TODO-->
+        <property name="worktrees.dir" value="tmp"/>
+
+        <delete dir="${worktrees.dir}" quiet="true"/>
+        <mkdir dir="${worktrees.dir}"/>
+
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="add"/>
+            <arg value="--detach"/>
+            <arg value="${worktrees.dir}/rev1"/>
+            <arg value="HEAD~1"/>
+        </exec>
+
+        <antcall target="build">
+            <param name="backend.src.full.dir" value="${worktrees.dir}/rev1"/>
+            <param name="artifact.name" value="ROOT1.war"/>
+        </antcall>
+
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="add"/>
+            <arg value="--detach"/>
+            <arg value="${worktrees.dir}/rev2"/>
+            <arg value="HEAD~2"/>
+        </exec>
+
+        <antcall target="build">
+            <param name="backend.src.full.dir" value="${worktrees.dir}/rev2"/>
+            <param name="artifact.name" value="ROOT2.war"/>
+        </antcall>
+
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="remove"/>
+            <arg value="--force"/>
+            <arg value="${worktrees.dir}/rev1"/>
+        </exec>
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="remove"/>
+            <arg value="--force"/>
+            <arg value="${worktrees.dir}/rev2"/>
+        </exec>
+
+        <delete dir="${worktrees.dir}" quiet="true"/>
+
+        <zip destfile="${artifact.dir}/team.zip"
+             basedir="${artifact.dir}"
+             includes="ROOT*.war"
+             update="false"/>
     </target>
 
     <target name="diff">
@@ -134,7 +183,7 @@
             <equals arg1="${git.diff}" arg2=""/>
         </condition>
 
-        <fail if:true="${no.changes}" message="Nothing to commit." />
+        <fail if:true="${no.changes}" message="Nothing to commit."/>
 
         <loadfile property="forbidden.list" srcFile="${commit.forbidden.list.file}">
             <filterchain>
@@ -160,7 +209,8 @@
         </condition>
 
         <!--<echo message="found: ${forbidden.changes.found}"/>-->
-        <fail if:true="${forbidden.changes.found}" message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
+        <fail if:true="${forbidden.changes.found}"
+              message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
 
         <echo message="No restricted classes affected. Committing..." unless:true="${forbidden.changes.found}"/>
         <exec executable="git" unless:true="${forbidden.changes.found}">
@@ -178,28 +228,35 @@
             <fileset dir="${backend.src.full.dir}"/>
         </copy>
 
-        <replace dir="${alt.backend.src.java.dir}" replacefilterfile="${alt.dir}/alt.classes.properties"/>
+        <copy file="${alt.dir}/alt.classes.properties" tofile="${alt.dir}/alt_classes.xml" overwrite="true">
+            <filterchain>
+                <tokenfilter>
+                    <!--
+                      \1 — old class name
+                      \2 — new class name
+                    -->
+                    <replaceregex pattern="^([^=]+)=([^=]+)$"
+                                  replace='&lt;replaceregexp match="\\\\b\1\\\\b" replace="\2" flags="g" encoding="UTF-8"&gt;
+                                           &lt;fileset dir="${alt.backend.src.java.dir}" includes="**/*.java"/&gt;
+                                           &lt;/replaceregexp&gt;
+                                           &lt;move todir="${alt.backend.src.java.dir}" quiet="true" failonerror="false" overwrite="true"&gt;
+                                           &lt;fileset dir="${alt.backend.src.java.dir}" includes="**/\1.java"/&gt;
+                                           &lt;mapper type="glob" from="*\1.java" to="*\2.java"/&gt;
+                                           &lt;/move&gt;'/>
+                </tokenfilter>
+            </filterchain>
+        </copy>
 
-        <loadproperties srcFile="${alt.dir}/alt.classes.properties" prefix="rename."/>
+        <concat destfile="${alt.dir}/run_alt_classes.xml" encoding="UTF-8">
+            <header><![CDATA[<project default="execute"><target name="execute">]]></header>
+            <fileset file="${alt.dir}/alt_classes.xml"/>
+            <footer><![CDATA[</target></project>]]></footer>
+        </concat>
 
-        <!-- TODO: не работает, либо подключить Ant-Contrib, либо искать другие варианты-->
-        <!--<move todir="${alt.backend.src.java.dir}">-->
-        <!--    <fileset dir="${alt.backend.src.java.dir}" includes="**/*.java"/>-->
-        <!--    <scriptmapper language="javascript">-->
-        <!--        <![CDATA[-->
-        <!--        var oldPath = source;-->
+        <ant antfile="${alt.dir}/run_alt_classes.xml" target="execute"/>
 
-        <!--        var fileName = oldPath.replace(/^.*[\\\/]/, '').replace(/\.java$/, '');-->
-
-        <!--        var newClassName = project.getProperty("rename." + fileName);-->
-
-        <!--        if (newClassName != null) {-->
-        <!--            var newPath = oldPath.replace(fileName + ".java", newClassName + ".java");-->
-        <!--            self.addMappedName(newPath);-->
-        <!--        }-->
-        <!--        ]]>-->
-        <!--    </scriptmapper>-->
-        <!--</move>-->
+        <delete file="${alt.dir}/alt_classes.xml"/>
+        <delete file="${alt.dir}/run_alt_classes.xml"/>
 
         <antcall target="build">
             <param name="backend.src.full.dir" value="${alt.backend.src.full.dir}"/>

@@ -9,3 +9,5 @@ build
 
 # Ignore temp files for alt target
 alt/src
+
+artifact
