@@ -209,11 +209,10 @@
         </condition>
 
         <!--<echo message="found: ${forbidden.changes.found}"/>-->
-        <fail if:true="${forbidden.changes.found}"
-              message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
+        <fail if:true="${forbidden.changes.found}" message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
 
-        <echo message="No restricted classes affected. Committing..." unless:true="${forbidden.changes.found}"/>
-        <exec executable="git" unless:true="${forbidden.changes.found}">
+        <echo if:false="${forbidden.changes.found}" message="No restricted classes affected. Committing..."/>
+        <exec if:false="${forbidden.changes.found}" executable="git">
             <arg value="commit"/>
             <arg value="-m"/>
             <arg value="${commit.msg}"/>
@@ -228,7 +227,7 @@
             <fileset dir="${backend.src.full.dir}"/>
         </copy>
 
-        <copy file="${alt.dir}/alt.classes.properties" tofile="${alt.dir}/alt_classes.xml" overwrite="true">
+        <copy file="${alt.dir}/alt.classes.properties" tofile="${alt.dir}/alt.classes.xml" overwrite="true">
             <filterchain>
                 <tokenfilter>
                     <!--
@@ -247,16 +246,33 @@
             </filterchain>
         </copy>
 
-        <concat destfile="${alt.dir}/run_alt_classes.xml" encoding="UTF-8">
+        <copy file="${alt.dir}/alt.variables.properties" tofile="${alt.dir}/alt.variables.xml" overwrite="true">
+            <filterchain>
+                <tokenfilter>
+                    <!--
+                        \1 — old variable name
+                        \2 — new variable name
+                    -->
+                    <replaceregex pattern="^([^=]+)=([^=]+)$"
+                                  replace='&lt;replaceregexp match="\\\\b\1\\\\b" replace="\2" flags="g" encoding="UTF-8"&gt;
+                                           &lt;fileset dir="${alt.backend.src.java.dir}" includes="**/*.java"/&gt;
+                                           &lt;/replaceregexp&gt;'/>
+                </tokenfilter>
+            </filterchain>
+        </copy>
+
+        <concat destfile="${alt.dir}/alt.xml" encoding="UTF-8">
             <header><![CDATA[<project default="execute"><target name="execute">]]></header>
-            <fileset file="${alt.dir}/alt_classes.xml"/>
+            <fileset file="${alt.dir}/alt.classes.xml"/>
+            <fileset file="${alt.dir}/alt.variables.xml"/>
             <footer><![CDATA[</target></project>]]></footer>
         </concat>
 
-        <ant antfile="${alt.dir}/run_alt_classes.xml" target="execute"/>
+        <ant antfile="${alt.dir}/alt.xml" target="execute"/>
 
-        <delete file="${alt.dir}/alt_classes.xml"/>
-        <delete file="${alt.dir}/run_alt_classes.xml"/>
+        <delete>
+            <fileset dir="${alt.dir}" includes="alt*.xml"/>
+        </delete>
 
         <antcall target="build">
             <param name="backend.src.full.dir" value="${alt.backend.src.full.dir}"/>
