@@ -211,8 +211,8 @@
         <!--<echo message="found: ${forbidden.changes.found}"/>-->
         <fail if:true="${forbidden.changes.found}" message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
 
-        <echo if:false="${forbidden.changes.found}" message="No restricted classes affected. Committing..."/>
-        <exec if:false="${forbidden.changes.found}" executable="git">
+        <echo unless:true="${forbidden.changes.found}" message="No restricted classes affected. Committing..."/>
+        <exec unless:true="${forbidden.changes.found}" executable="git">
             <arg value="commit"/>
             <arg value="-m"/>
             <arg value="${commit.msg}"/>
