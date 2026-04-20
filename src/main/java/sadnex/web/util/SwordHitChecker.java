@@ -4,6 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import sadnex.web.entity.Point;
 
+/**
+ * CDI-бин. Нужен для проверки попадания точки в меч.
+ * @author s4dnex
+ */
 @Named("swordHitChecker")
 @ApplicationScoped
 public class SwordHitChecker implements HitChecker {

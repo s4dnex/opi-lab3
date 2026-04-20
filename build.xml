@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="opi-lab3" default="build" xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:jacoco="antlib:org.jacoco.ant">
+    <property file="build.properties"/>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac destdir="${build.classes.dir}"
+               includeantruntime="false"
+               debug="true"
+               release="${java.target}">
+            <classpath>
+                <path>
+                    <fileset dir="${backend.libs.dir}" includes="**/*.jar"/>
+                    <fileset dir="${backend.src.java.dir}" includes="**/*.java"/>
+                </path>
+            </classpath>
+            <src path="${backend.src.full.dir}"/>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile, native2ascii">
+        <war destfile="${artifact.dir}/${artifact.name}"
+             webxml="${frontend.src.dir}/WEB-INF/web.xml"
+             manifest="${backend.src.resource.dir}/META-INF/MANIFEST.MF">
+            <fileset dir="${frontend.src.dir}"/>
+            <metainf dir="${backend.src.resource.dir}/META-INF"/>
+            <classes dir="${build.dir}/classes"/>
+            <lib dir="${backend.libs.dir}"/>
+        </war>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="libs/jacocoant.jar"/>
+    </taskdef>
+
+    <target name="test" depends="build">
+        <mkdir dir="${test.build.classes.dir}"/>
+        <javac destdir="${test.build.classes.dir}" includeantruntime="false">
+            <classpath>
+                <path>
+                    <fileset dir="${backend.libs.dir}" includes="*.jar"/>
+                    <pathelement location="${build.classes.dir}"/>
+                </path>
+            </classpath>
+            <src path="${test.backend.src.dir}"/>
+        </javac>
+
+        <jacoco:coverage destfile="jacoco.exec">
+            <junit printsummary="on" haltonfailure="yes" fork="true">
+                <classpath>
+                    <pathelement location="${build.classes.dir}"/>
+                    <pathelement location="${backend.src.resource.dir}"/>
+                    <pathelement location="${test.build.classes.dir}"/>
+                    <fileset dir="${backend.libs.dir}" includes="*.jar"/>
+                </classpath>
+                <formatter type="plain" usefile="false"/>
+                <batchtest todir="${report.dir}">
+                    <fileset dir="${test.build.classes.dir}"/>
+                </batchtest>
+            </junit>
+        </jacoco:coverage>
+
+        <jacoco:report>
+            <executiondata>
+                <file file="jacoco.exec" />
+            </executiondata>
+
+            <structure name="OPI Lab3">
+                <classfiles>
+                    <fileset dir="${build.classes.dir}" />
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${backend.src.java.dir}" />
+                </sourcefiles>
+            </structure>
+
+            <html destdir="${report.dir}" />
+        </jacoco:report>
+
+        <delete file="jacoco.exec"/>
+    </target>
+
+
+    <target name="xml">
+        <xmlvalidate>
+            <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
+            <attribute name="http://apache.org/xml/features/validation/dynamic" value="true"/>
+            <attribute name="http://apache.org/xml/features/nonvalidating/load-external-dtd" value="true"/>
+            <fileset dir="${basedir}" includes="**/*.xml"/>
+        </xmlvalidate>
+    </target>
+
+    <target name="music">
+        <sound>
+            <success source="${assets.sound.dir}/success.wav"/>
+            <fail source="${assets.sound.dir}/fail.wav"/>
+        </sound>
+
+        <antcall target="build"/>
+    </target>
+
+    <path id="compile.classpath">
+        <fileset dir="${backend.libs.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="doc">
+        <checksum todir=".checksum" algorithm="MD5" totalproperty="sources.md5">
+            <fileset dir="${backend.src.java.dir}" includes="**/*.java"/>
+        </checksum>
+        <checksum todir=".checksum" algorithm="SHA-1" totalproperty="sources.sha1">
+            <fileset dir="${backend.src.java.dir}" includes="**/*.java"/>
+        </checksum>
+
+        <manifest file="${backend.src.resource.dir}/META-INF/MANIFEST.MF">
+            <attribute name="Manifest-Version" value="1.0"/>
+            <attribute name="Created-By" value="Apache Ant ${ant.version}"/>
+            <attribute name="Sources-MD5" value="${sources.md5}"/>
+            <attribute name="Sources-SHA1" value="${sources.sha1}"/>
+        </manifest>
+        <delete dir=".checksum"/>
+
+        <javadoc sourcepath="${backend.src.java.dir}" defaultexcludes="yes" destdir="${docs.java.dir}" author="true">
+            <classpath refid="compile.classpath"/>
+        </javadoc>
+    </target>
+
+    <target name="native2ascii">
+        <delete dir="${backend.src.resource.dir}" includes="messages_*.properties"/>
+        <native2ascii src="${backend.src.resource.dir}/locale"
+                      dest="${backend.src.resource.dir}"
+                      includes="messages_*.properties"/>
+    </target>
+
+    <target name="env" depends="build">
+        <!-- ??? -->
+    </target>
+
+    <target name="team">
+        <property name="worktrees.dir" value="tmp"/>
+
+        <delete dir="${worktrees.dir}" quiet="true"/>
+        <mkdir dir="${worktrees.dir}"/>
+
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="add"/>
+            <arg value="--detach"/>
+            <arg value="${worktrees.dir}/rev1"/>
+            <arg value="HEAD~1"/>
+        </exec>
+
+        <antcall target="build">
+            <param name="backend.src.full.dir" value="${worktrees.dir}/rev1"/>
+            <param name="artifact.name" value="ROOT1.war"/>
+        </antcall>
+
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="add"/>
+            <arg value="--detach"/>
+            <arg value="${worktrees.dir}/rev2"/>
+            <arg value="HEAD~2"/>
+        </exec>
+
+        <antcall target="build">
+            <param name="backend.src.full.dir" value="${worktrees.dir}/rev2"/>
+            <param name="artifact.name" value="ROOT2.war"/>
+        </antcall>
+
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="remove"/>
+            <arg value="--force"/>
+            <arg value="${worktrees.dir}/rev1"/>
+        </exec>
+        <exec executable="git" failonerror="true">
+            <arg value="worktree"/>
+            <arg value="remove"/>
+            <arg value="--force"/>
+            <arg value="${worktrees.dir}/rev2"/>
+        </exec>
+
+        <delete dir="${worktrees.dir}" quiet="true"/>
+
+        <zip destfile="${artifact.dir}/team.zip"
+             basedir="${artifact.dir}"
+             includes="ROOT*.war"
+             update="false"/>
+    </target>
+
+    <target name="diff">
+        <exec executable="git">
+            <arg value="add"/>
+            <arg value="."/>
+        </exec>
+
+        <exec executable="git" outputproperty="git.diff">
+            <arg value="diff"/>
+            <arg value="--name-only"/>
+            <arg value="--staged"/>
+        </exec>
+
+        <condition property="no.changes">
+            <equals arg1="${git.diff}" arg2=""/>
+        </condition>
+
+        <fail if:true="${no.changes}" message="Nothing to commit."/>
+
+        <loadfile property="forbidden.list" srcFile="${commit.forbidden.list.file}">
+            <filterchain>
+                <tokenfilter>
+                    <trim/>
+                    <replaceregex pattern="\." replace="\\." flags="g"/>
+                </tokenfilter>
+                <prefixlines prefix="|"/>
+                <striplinebreaks/>
+                <tokenfilter>
+                    <replaceregex pattern="^\|" replace=""/>
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+
+        <!--<echo message="list: ${forbidden.list}"/>-->
+        <!--<echo message="diff: ${git.diff}"/>-->
+
+        <condition property="forbidden.changes.found">
+            <matches string="${git.diff}">
+                <regexp pattern="${forbidden.list}"/>
+            </matches>
+        </condition>
+
+        <!--<echo message="found: ${forbidden.changes.found}"/>-->
+        <fail if:true="${forbidden.changes.found}" message="COMMIT ABORTED: One or more changed files are in the forbidden list!"/>
+
+        <echo unless:true="${forbidden.changes.found}" message="No restricted classes affected. Committing..."/>
+        <exec unless:true="${forbidden.changes.found}" executable="git">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="${commit.msg}"/>
+        </exec>
+    </target>
+
+    <target name="alt">
+        <delete dir="${alt.backend.src.full.dir}"/>
+        <mkdir dir="${alt.backend.src.full.dir}"/>
+
+        <copy todir="${alt.backend.src.full.dir}">
+            <fileset dir="${backend.src.full.dir}"/>
+        </copy>
+
+        <copy file="${alt.dir}/alt.classes.properties" tofile="${alt.dir}/alt.classes.xml" overwrite="true">
+            <filterchain>
+                <tokenfilter>
+                    <!--
+                      \1 — old class name
+                      \2 — new class name
+                    -->
+                    <replaceregex pattern="^([^=]+)=([^=]+)$"
+                                  replace='&lt;replaceregexp match="\\\\b\1\\\\b" replace="\2" flags="g" encoding="UTF-8"&gt;
+                                           &lt;fileset dir="${alt.backend.src.java.dir}" includes="**/*.java"/&gt;
+                                           &lt;/replaceregexp&gt;
+                                           &lt;move todir="${alt.backend.src.java.dir}" quiet="true" failonerror="false" overwrite="true"&gt;
+                                           &lt;fileset dir="${alt.backend.src.java.dir}" includes="**/\1.java"/&gt;
+                                           &lt;mapper type="glob" from="*\1.java" to="*\2.java"/&gt;
+                                           &lt;/move&gt;'/>
+                </tokenfilter>
+            </filterchain>
+        </copy>
+
+        <copy file="${alt.dir}/alt.variables.properties" tofile="${alt.dir}/alt.variables.xml" overwrite="true">
+            <filterchain>
+                <tokenfilter>
+                    <!--
+                        \1 — old variable name
+                        \2 — new variable name
+                    -->
+                    <replaceregex pattern="^([^=]+)=([^=]+)$"
+                                  replace='&lt;replaceregexp match="\\\\b\1\\\\b" replace="\2" flags="g" encoding="UTF-8"&gt;
+                                           &lt;fileset dir="${alt.backend.src.java.dir}" includes="**/*.java"/&gt;
+                                           &lt;/replaceregexp&gt;'/>
+                </tokenfilter>
+            </filterchain>
+        </copy>
+
+        <concat destfile="${alt.dir}/alt.xml" encoding="UTF-8">
+            <header><![CDATA[<project default="execute"><target name="execute">]]></header>
+            <fileset file="${alt.dir}/alt.classes.xml"/>
+            <fileset file="${alt.dir}/alt.variables.xml"/>
+            <footer><![CDATA[</target></project>]]></footer>
+        </concat>
+
+        <ant antfile="${alt.dir}/alt.xml" target="execute"/>
+
+        <delete>
+            <fileset dir="${alt.dir}" includes="alt*.xml"/>
+        </delete>
+
+        <antcall target="build">
+            <param name="backend.src.full.dir" value="${alt.backend.src.full.dir}"/>
+            <param name="backend.src.java.dir" value="${alt.backend.src.java.dir}"/>
+        </antcall>
+    </target>
+</project>

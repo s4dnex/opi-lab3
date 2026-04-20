@@ -12,6 +12,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * CDI-бин. Позволяет из фронт-энда вызывать бизнес-логику, связанную с обработкой точек.
+ * @author s4dnex
+ */
 @Named("area")
 @RequestScoped
 public class AreaBean implements Serializable {

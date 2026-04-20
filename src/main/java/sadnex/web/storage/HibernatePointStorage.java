@@ -1,22 +1,40 @@
 package sadnex.web.storage;
 
-import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import sadnex.web.entity.Point;
 
 import java.util.List;
 
-@Stateless
+/**
+ * CDI-бин. Нужен для доступа к точкам из БД.
+ * Настройка в META-INF/persistence.xml.
+ * @author s4dnex
+ */
+@Named("hibernatePointStorage")
+@ApplicationScoped
 public class HibernatePointStorage implements PointStorage {
     @PersistenceContext(unitName = "web-lab3")
     private EntityManager entityManager;
+
+    public HibernatePointStorage() {}
+
+    public HibernatePointStorage(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public void addPoint(Point point) {
         entityManager.persist(point);
     }
 
+    /**
+     * Возвращает все точки из БД.
+     * Сортирует по убываю времени создания.
+     * @author s4dnex
+     */
     @Override
     public List<Point> getPoints() {
         return entityManager

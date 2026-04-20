@@ -1,1 +1,1 @@
-rootProject.name = "web-lab3"
+rootProject.name = "opi-lab3"
